@@ -1,0 +1,31 @@
+.container {
+    position: relative;
+    height: 100vh;
+    overflow-y: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    color: white;
+    text-shadow:black 1px 0 10px;;
+}
+
+.column-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* height: 100vh; */
+    text-decoration: none;
+    color: black;
+    position: relative;
+}
+
+.gender {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
