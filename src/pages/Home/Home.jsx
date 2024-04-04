@@ -63,7 +63,7 @@ function Home() {
                         backgroundImage: `url(${womanImageUrl})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center top",
-                        color: "white",
+                        color: "black",
                     }}
                     onClick={goToMain("women")}
                 >

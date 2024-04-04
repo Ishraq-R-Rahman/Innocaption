@@ -1,0 +1,14 @@
+.navbar {
+    /* top: 34px !important; */
+    background-color: transparent !important;
+    color: white !important;
+    cursor: pointer;
+    z-index: 900;
+    top: 34px !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+.navbar:hover {
+    background-color: white !important;
+    color: #002e5d !important;
+}
