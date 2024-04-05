@@ -11,7 +11,7 @@ function ImagedDiv({ image, noButton, text, buttonText, onClick }) {
         >
             {!noButton && (
                 <div className="content-container">
-                    <h1>{text}</h1>
+                    <h1 style={{marginBottom: 20, textShadow: "4px 4px 4px black"}}>{text}</h1>
                     <SectionButtons text={buttonText} onClick={onClick} />
                 </div>
             )}

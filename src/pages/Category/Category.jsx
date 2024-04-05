@@ -54,10 +54,8 @@ function Category() {
                 setSelectedBrands={setSelectedBrands}
             />
             <ImagedDiv
-                image={"/src/assets/bg.jpg"}
-                text={`${
-                    category.charAt(0).toUpperCase() + category.slice(1)
-                } for Men`}
+                image={`/src/assets/${category}.jpg`}
+                text={`${category.charAt(0).toUpperCase() + category.slice(1)}`}
                 buttonText={"Shop Now"}
                 onClick={() => scrollToSection("items")}
             />
