@@ -9,6 +9,7 @@ const Footer = () => {
                 py: 2,
                 px: 2,
                 mt: "auto",
+
                 backgroundColor: (theme) =>
                     theme.palette.mode === "light"
                         ? theme.palette.grey[200]

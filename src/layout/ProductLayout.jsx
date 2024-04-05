@@ -217,6 +217,7 @@ const ProductLayout = () => {
                     <Box
                         sx={{
                             maxWidth: "30rem",
+                            marginLeft: isSmallMobile && "auto",
                             marginRight: "auto",
                             textAlign: isMobile ? "center" : "left",
                         }}
@@ -234,6 +235,7 @@ const ProductLayout = () => {
                                 mt: 2,
                                 backgroundColor: "#00123c",
                                 transition: "all 0.5s ease-in-out",
+                                marginBottom: isMobile && "10px",
 
                                 "&:hover": {
                                     backgroundColor: "white",
