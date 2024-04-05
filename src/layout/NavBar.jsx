@@ -16,6 +16,7 @@ import Sidebar from "./SideBar";
 import { useState } from "react";
 import CartDrawer from "./CartDrawer";
 import { useCart } from "../context/CartContext";
+import SearchDialog from "./SearchDialog";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ categories, alwaysHovered }) {
@@ -47,9 +48,11 @@ function NavBar({ categories, alwaysHovered }) {
 
     const [open, setOpen] = useState(false);
     const [openCart, setOpenCart] = useState(false);
+    const [openSearchBar, setOpenSearchBar] = useState(false);
 
     return (
         <>
+            <SearchDialog open={openSearchBar} setOpen={setOpenSearchBar} />
             {isMobile && (
                 <Sidebar
                     open={open}
@@ -136,7 +139,10 @@ function NavBar({ categories, alwaysHovered }) {
                                     justifyContent: "flex-end",
                                 }}
                             >
-                                <IconButton color="inherit">
+                                <IconButton
+                                    color="inherit"
+                                    onClick={() => setOpenSearchBar(true)}
+                                >
                                     <Search />
                                 </IconButton>
                                 <IconButton color="inherit">
@@ -173,7 +179,10 @@ function NavBar({ categories, alwaysHovered }) {
                                 <IconButton color="inherit">
                                     <Menu onClick={() => setOpen(true)} />
                                 </IconButton>
-                                <IconButton color="inherit">
+                                <IconButton
+                                    color="inherit"
+                                    onClick={() => setOpenSearchBar(true)}
+                                >
                                     <Search />
                                 </IconButton>
                             </Box>
