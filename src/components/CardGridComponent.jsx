@@ -1,11 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Grid } from "@mui/material";
-import CardComponent from "./CardComponent"; // Your custom Card component
+import CardComponent from "./CardComponent";
 
-const CardGridComponent = () => {
-    const cards = [
-        1,2,3,4,5,6,7,8,9,10
-    ];
-
+const CardGridComponent = ({ cards }) => {
     return (
         <Grid container spacing={2} mt={2}>
             {cards.map((card, index) => (

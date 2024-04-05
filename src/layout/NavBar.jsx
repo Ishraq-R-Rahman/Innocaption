@@ -27,6 +27,15 @@ function NavBar({ categories }) {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const handleNavigateCategories = (path) => {
+        const currentRoute = location.pathname.split("/");
+        const gender =
+            currentRoute.length == 2
+                ? currentRoute[currentRoute.length - 1]
+                : currentRoute[currentRoute.length - 2];
+        navigate(`/${gender}${path}`);
+    };
+
     const handleNavigate = (path) => {
         navigate(path);
     };
@@ -110,7 +119,7 @@ function NavBar({ categories }) {
                                                 key={text}
                                                 text={text}
                                                 onClick={() =>
-                                                    handleNavigate(
+                                                    handleNavigateCategories(
                                                         `/${text.toLowerCase()}`
                                                     )
                                                 }

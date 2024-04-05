@@ -1,6 +1,16 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Typography, Box, useMediaQuery } from "@mui/material";
+import {
+    Typography,
+    Box,
+    useMediaQuery,
+    Button,
+    Select,
+    MenuItem,
+    FormControl,
+} from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TabsComponent from "../components/TabsComponent";
 import CardComponent from "../components/CardComponent";
 import CardGridComponent from "../components/CardGridComponent";
@@ -32,6 +42,10 @@ export default function SectionDiv({
     categories,
     id,
     noTabs,
+    includeFilterSort,
+    setOpenFilter,
+    sortValue,
+    handleSortChange,
 }) {
     const [value, setValue] = React.useState(0);
     const isMobile = useMediaQuery("(max-width:768px)");
@@ -52,6 +66,61 @@ export default function SectionDiv({
                 >
                     {title}
                 </Typography>
+                {includeFilterSort && (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Button
+                            startIcon={<FilterListIcon />}
+                            onClick={() => setOpenFilter(true)}
+                            sx={{
+                                color: "black",
+                                fontSize: "16px",
+                                textTransform: "capitalize",
+                                fontWeight: "normal",
+                            }}
+                        >
+                            {!isMobile && "Filter"}
+                        </Button>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <Typography
+                                variant="subtitle1"
+                                component="span"
+                                sx={{ marginRight: 1 }}
+                            >
+                                Sort by
+                            </Typography>
+                            <FormControl
+                                variant="standard"
+                                sx={{ minWidth: 120 }}
+                            >
+                                <Select
+                                    value={sortValue}
+                                    onChange={handleSortChange}
+                                    IconComponent={ArrowDropDownIcon}
+                                    displayEmpty
+                                    inputProps={{
+                                        "aria-label": "Without label",
+                                    }}
+                                >
+                                    <MenuItem value="bestSellers">
+                                        Best Sellers
+                                    </MenuItem>
+                                    <MenuItem value="lowestPrice">
+                                        Lowest Price
+                                    </MenuItem>
+                                    <MenuItem value="highestPrice">
+                                        Highest Price
+                                    </MenuItem>
+                                    {/* Add more sorting options here */}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Box>
+                )}
                 {!noTabs && (
                     <TabsComponent
                         value={value}
@@ -68,7 +137,7 @@ export default function SectionDiv({
                         <CardComponent />
                     </TabPanel>
                 ))}
-            {noTabs && <CardGridComponent />}
+            {noTabs && <CardGridComponent cards={[1, 2, 3, 4, 5, 6]} />}
         </Box>
     );
 }
