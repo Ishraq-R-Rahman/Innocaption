@@ -2,6 +2,7 @@
 import React from "react";
 import { Typography, Box, useMediaQuery } from "@mui/material";
 import TabsComponent from "../components/TabsComponent";
+import CardComponent from "../components/CardComponent";
 
 const TabPanel = (props) => {
     // eslint-disable-next-line react/prop-types
@@ -63,8 +64,7 @@ export default function SectionDiv({
                 // eslint-disable-next-line react/prop-types
                 categories.map((category, index) => (
                     <TabPanel value={value} index={index} key={category}>
-                        {/* Content for each category */}
-                        {`Content for ${category}`}
+                        <CardComponent />
                     </TabPanel>
                 ))}
         </Box>
