@@ -7,16 +7,24 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Fragment } from "react";
 import { Box } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ open, onClose, onClick, categories }) => {
-    const clickCategory = (category) => {
-        onClose();
-        console.log(category);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-        // Use onclick to go to category page
+    const clickCategory = (category) => {
+        const currentRoute = location.pathname.split("/");
+
+        const gender =
+            currentRoute.length == 2
+                ? currentRoute[currentRoute.length - 1]
+                : currentRoute[currentRoute.length - 2];
+        navigate(`/${gender}/${category}`);
+        onClose();
     };
     return (
         <Drawer
@@ -41,11 +49,23 @@ const Sidebar = ({ open, onClose, onClick, categories }) => {
                 <CloseIcon />
             </IconButton>
             <Box display="flex" justifyContent="space-between" paddingX={1}>
-                <ListItem button onClick={() => onClick("/men")}>
+                <ListItem
+                    button
+                    onClick={() => {
+                        onClick("/men");
+                        onClose();
+                    }}
+                >
                     <ListItemText primary="Men" />
                 </ListItem>
                 <Divider orientation="vertical" variant="middle" flexItem />
-                <ListItem button onClick={() => onClick("/women")}>
+                <ListItem
+                    button
+                    onClick={() => {
+                        onClick("/women");
+                        onClose();
+                    }}
+                >
                     <ListItemText primary="Women" />
                 </ListItem>
             </Box>

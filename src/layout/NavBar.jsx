@@ -18,7 +18,7 @@ import CartDrawer from "./CartDrawer";
 import { useCart } from "../context/CartContext";
 
 // eslint-disable-next-line react/prop-types
-function NavBar({ categories }) {
+function NavBar({ categories, alwaysHovered }) {
     const { totalItemCount } = useCart();
 
     const isMobile = useMediaQuery("(max-width:964px)");
@@ -63,7 +63,7 @@ function NavBar({ categories }) {
                 position="absolute"
                 color="default"
                 elevation={0}
-                className="navbar"
+                className={`navbar ${alwaysHovered && "hovered"}`}
             >
                 <Toolbar style={{ padding: "6px 12px", width: "100%" }}>
                     {!isMobile && (
