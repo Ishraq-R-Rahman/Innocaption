@@ -43,6 +43,7 @@ const CardComponent = () => {
         <Card
             sx={{
                 position: "relative",
+                width: "100%",
                 maxWidth: { xs: "100%", sm: 345 },
                 cursor: "pointer",
                 "&:hover": {
@@ -50,7 +51,7 @@ const CardComponent = () => {
                         transform: "scale(1.05)",
                     },
                 },
-                height: { sm: 500 },
+                height: { sm: 500, xs: 400 },
             }}
         >
             <CardMediaZoom>

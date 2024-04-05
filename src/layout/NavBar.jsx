@@ -6,6 +6,7 @@ import {
     Typography,
     useMediaQuery,
 } from "@mui/material";
+import Badge from "@mui/material/Badge";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import "./NavBar.css";
@@ -13,9 +14,13 @@ import { Person, Search, ShoppingBag, Menu } from "@mui/icons-material";
 import MenuButtons from "../components/MenuButtons";
 import Sidebar from "./SideBar";
 import { useState } from "react";
+import CartDrawer from "./CartDrawer";
+import { useCart } from "../context/CartContext";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ categories }) {
+    const { totalItemCount } = useCart();
+
     const isMobile = useMediaQuery("(max-width:964px)");
     const isExtraSmall = useMediaQuery("(max-width:480px)");
 
@@ -32,6 +37,7 @@ function NavBar({ categories }) {
     };
 
     const [open, setOpen] = useState(false);
+    const [openCart, setOpenCart] = useState(false);
 
     return (
         <>
@@ -43,6 +49,7 @@ function NavBar({ categories }) {
                     categories={categories}
                 />
             )}
+            <CartDrawer isOpen={openCart} onClose={() => setOpenCart(false)} />
             <AppBar
                 position="absolute"
                 color="default"
@@ -126,8 +133,21 @@ function NavBar({ categories }) {
                                 <IconButton color="inherit">
                                     <Person />
                                 </IconButton>
-                                <IconButton color="inherit">
-                                    <ShoppingBag />
+                                <IconButton
+                                    color="inherit"
+                                    onClick={() => setOpenCart(true)}
+                                    disabled={totalItemCount == 0}
+                                >
+                                    <Badge
+                                        badgeContent={totalItemCount}
+                                        sx={{
+                                            "& .MuiBadge-badge": {
+                                                backgroundColor: "#ff6f61",
+                                            },
+                                        }}
+                                    >
+                                        <ShoppingBag color="inherit" />
+                                    </Badge>
                                 </IconButton>
                             </Box>
                         </>
@@ -181,8 +201,15 @@ function NavBar({ categories }) {
                                 <IconButton
                                     color="inherit"
                                     size={isMobile && "small"}
+                                    onClick={() => setOpenCart(true)}
+                                    disabled={totalItemCount == 0}
                                 >
-                                    <ShoppingBag />
+                                    <Badge
+                                        badgeContent={totalItemCount}
+                                        color="primary"
+                                    >
+                                        <ShoppingBag color="action" />
+                                    </Badge>
                                 </IconButton>
                             </Box>
                         </>

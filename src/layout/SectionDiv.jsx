@@ -3,6 +3,7 @@ import React from "react";
 import { Typography, Box, useMediaQuery } from "@mui/material";
 import TabsComponent from "../components/TabsComponent";
 import CardComponent from "../components/CardComponent";
+import CardGridComponent from "../components/CardGridComponent";
 
 const TabPanel = (props) => {
     // eslint-disable-next-line react/prop-types
@@ -67,6 +68,7 @@ export default function SectionDiv({
                         <CardComponent />
                     </TabPanel>
                 ))}
+            {noTabs && <CardGridComponent />}
         </Box>
     );
 }
