@@ -199,7 +199,7 @@ const ProductLayout = (prop) => {
                                 variant={isSmallMobile ? "h6" : "h4"}
                                 sx={{ fontWeight: "bold", marginBottom: 2 }}
                             >
-                                {price}
+                                ${price}
                             </Typography>
                             {currentProduct.discountPercentage && (
                                 <Typography
@@ -210,7 +210,7 @@ const ProductLayout = (prop) => {
                                         marginBottom: 2,
                                     }}
                                 >
-                                    {currentProduct.price}
+                                    ${currentProduct.price}
                                 </Typography>
                             )}
                             <Button

@@ -22,15 +22,14 @@ import "./CartDrawer.css";
 
 const CartDrawer = ({ isOpen, onClose }) => {
     const { cartItems, addToCart, reduceFromCart, removeFromCart } = useCart();
-    const subtotal = cartItems.reduce(
-        (acc, item) => acc + item.price * item.amount,
-        0
-    );
+    const subtotal =
+        cartItems &&
+        cartItems.reduce((acc, item) => acc + item.price * item.amount, 0);
     const shipping = "Free";
     // const shipping = subtotal > 50 ? "Free" : 5; // Free shipping for orders over $50
 
     return (
-        <Drawer anchor="right" open={isOpen} onClose={onClose}>
+        <Drawer anchor="right" open={isOpen} onClose={onClose} disabled={!cartItems}>
             <Box
                 sx={{
                     width: 280,
@@ -115,6 +114,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                 <Typography>{item.amount}</Typography>
                                 <IconButton
                                     size="small"
+                                    disabled={item.amount == item.stock}
                                     onClick={() => addToCart(item)}
                                 >
                                     <AddCircleOutlineIcon />

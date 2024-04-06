@@ -1,31 +1,36 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
     Dialog,
     IconButton,
     TextField,
     DialogContent,
+    CircularProgress,
     Grid,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import CardGridComponent from "../components/CardGridComponent";
+import { fetchSearchedProducts } from "../api/productQuery";
+import useCategories from "../hooks/categories";
 
 const SearchDialog = ({ open, setOpen }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [results, setResults] = useState([]);
+    const { categories } = useCategories();
+
+    const showOnlyTopResults = 6;
+
+    const { data: results, isLoading } = useQuery({
+        queryKey: ["searchProducts", searchTerm],
+        queryFn: ({ queryKey }) =>
+            fetchSearchedProducts({ queryKey, categories }),
+        enabled: searchTerm.length >= 3,
+        select: (data) => data ?? [],
+    });
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-    };
-
-    /**
-     * ! Make sure the search first sees whether the string matches any products, if not search based on categories
-     */
-    const handleSearch = () => {
-        // Simulate a search operation, you might want to fetch results from an API
-        const filteredResults = []; // Replace with actual search logic
-        setResults(filteredResults);
     };
 
     return (
@@ -36,7 +41,10 @@ const SearchDialog = ({ open, setOpen }) => {
 
             <Dialog
                 open={open}
-                onClose={() => setOpen(false)}
+                onClose={() => {
+                    setOpen(false);
+                    setSearchTerm("");
+                }}
                 fullWidth
                 maxWidth="md"
             >
@@ -49,19 +57,24 @@ const SearchDialog = ({ open, setOpen }) => {
                         value={searchTerm}
                         onKeyPress={(ev) => {
                             if (ev.key === "Enter") {
-                                handleSearch();
+                                // Prevent form submission or any default action
                                 ev.preventDefault();
                             }
                         }}
                     />
-                    <Grid container spacing={2} mt={2}>
-                        {/* If searching yields no results, you might want to display a message or leave it blank */}
-                        {results.length > 0 ? (
-                            <CardGridComponent cards={results} />
-                        ) : (
-                            <div>No results found</div>
-                        )}
-                    </Grid>
+                    {isLoading ? (
+                        <CircularProgress />
+                    ) : (
+                        <Grid container spacing={2} mt={2}>
+                            {results && results.length > 0 ? (
+                                <CardGridComponent
+                                    cards={results.slice(0, showOnlyTopResults)}
+                                />
+                            ) : (
+                                <div>No results found</div>
+                            )}
+                        </Grid>
+                    )}
                 </DialogContent>
             </Dialog>
         </>

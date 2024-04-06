@@ -36,11 +36,15 @@ const OverlayText = styled(Box)({
     justifyContent: "center",
 });
 
-const CardComponent = () => {
+const CardComponent = (product) => {
     const navigate = useNavigate();
     const handleNavigate = (itemId) => {
         navigate(`/${itemId}`);
     };
+
+    const price = product.discountPercentage
+        ? (product.price * (1 + product.discountPercentage / 100)).toFixed(2)
+        : product.price;
 
     return (
         <Card
@@ -60,20 +64,23 @@ const CardComponent = () => {
                     <img src="/src/assets/thumbnail.jpg" alt="Product Image" />
                     <OverlayText>
                         <Typography variant="h6" component="div">
-                            Item Name
+                            {product.title}
                         </Typography>
                         <Typography variant="h6" component="span">
-                            $130{" "}
-                            <span
-                                style={{
-                                    color: "#ddd",
-                                    textDecoration: "line-through",
-                                }}
-                            >
-                                $200
-                            </span>
+                            ${price}
+                            {product.discountPercentage && (
+                                <span
+                                    style={{
+                                        color: "#ddd",
+                                        textDecoration: "line-through",
+                                        marginLeft: "10px"
+                                    }}
+                                >
+                                    ${product.price}
+                                </span>
+                            )}
                         </Typography>
-                        <Typography variant="subtitle1">In Stock</Typography>
+                        <Typography variant="subtitle2" sx={{color: "#ccc"}}>In Stock</Typography>
                     </OverlayText>
                 </CardMediaZoom>
             </CardActionArea>
