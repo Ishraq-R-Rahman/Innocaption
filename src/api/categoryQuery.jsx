@@ -12,6 +12,7 @@ export const fetchProductsByCategory = async ({
     queryKey,
     gender,
     selectedCategories,
+    sortValue,
 }) => {
     const [, category] = queryKey;
     let subcategories = [];
@@ -35,7 +36,15 @@ export const fetchProductsByCategory = async ({
     // Combine all products into a single array
     const allProducts = productsArrays.flat();
 
-    const sortedProducts = allProducts.sort((a, b) => a.stock - b.stock);
+    let sortedProducts = allProducts;
+
+    if (sortValue === "bestSellers") {
+        sortedProducts = allProducts.sort((a, b) => a.stock - b.stock);
+    } else if (sortValue === "lowestPrice") {
+        sortedProducts = allProducts.sort((a, b) => a.price - b.price);
+    } else {
+        sortedProducts = allProducts.sort((a, b) => b.price - a.price);
+    }
 
     return sortedProducts;
 };

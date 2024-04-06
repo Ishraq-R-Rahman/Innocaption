@@ -12,7 +12,6 @@ import {
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TabsComponent from "../components/TabsComponent";
-import CardComponent from "../components/CardComponent";
 import CardGridComponent from "../components/CardGridComponent";
 import { navToCategoryMapping } from "../assets/const";
 import { fetchFavorites } from "../api/categoryQuery";

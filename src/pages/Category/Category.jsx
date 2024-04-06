@@ -45,13 +45,20 @@ function Category() {
     };
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["products", category, selectedCategories, selectedBrands],
+        queryKey: [
+            "products",
+            category,
+            selectedCategories,
+            selectedBrands,
+            sortValue,
+        ],
         queryFn: ({ queryKey }) => {
             return fetchProductsByCategory({
                 queryKey,
                 gender,
                 selectedCategories,
                 selectedBrands,
+                sortValue,
             });
         },
         enabled: !!category, // Only run the query if the category is not null/undefined
