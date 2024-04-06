@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 // eslint-disable-next-line react/prop-types
-function MenuButtons({ text, onClick, variant }) {
+function MenuButtons({ text, onClick, variant, active }) {
     return (
         <Button
             key={text}
@@ -9,10 +9,13 @@ function MenuButtons({ text, onClick, variant }) {
             sx={{
                 position: "relative",
                 overflow: "hidden",
+                borderRadius: "5px 5px 0 0",
+                borderBottom: active ? "2px solid white" : "none",
                 "&:hover": {
                     // backgroundColor: "transparent",
                     // borderBottom: "10px",
                     // borderBottomColor: "#002e5d",
+                    borderBottom: active ? "2px solid #002e5d" : "none",
                 },
             }}
         >

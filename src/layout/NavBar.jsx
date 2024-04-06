@@ -43,9 +43,13 @@ function NavBar({ alwaysHovered }) {
         navigate(path);
     };
 
-    // eslint-disable-next-line no-unused-vars
+    const isGenderActive = (g) => {
+        const gender = location.pathname.split("/")[1];
+        return g === gender;
+    };
     const isActive = (path) => {
-        return location.pathname === path;
+        const routes = location.pathname.split("/");
+        return routes[routes.length - 1] === path;
     };
 
     const [open, setOpen] = useState(false);
@@ -95,10 +99,12 @@ function NavBar({ alwaysHovered }) {
                                     Innocaption
                                 </Typography>
                                 <MenuButtons
+                                    active={isGenderActive("men")}
                                     text={"Men"}
                                     onClick={() => handleNavigate("/men")}
                                 />
                                 <MenuButtons
+                                    active={isGenderActive("women")}
                                     text={"Women"}
                                     onClick={() => handleNavigate("/women")}
                                 />
@@ -124,6 +130,7 @@ function NavBar({ alwaysHovered }) {
                                         categories.map((text) => (
                                             <MenuButtons
                                                 key={text}
+                                                active={isActive(text)}
                                                 text={text}
                                                 onClick={() =>
                                                     handleNavigateCategories(

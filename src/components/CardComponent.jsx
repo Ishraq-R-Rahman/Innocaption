@@ -59,7 +59,7 @@ const CardComponent = (product) => {
                 },
             }}
         >
-            <CardActionArea onClick={() => handleNavigate(1)}>
+            <CardActionArea onClick={() => handleNavigate(product.id)}>
                 <CardMediaZoom>
                     <img src={product.thumbnail} alt={product.title} />
                     <OverlayText>
