@@ -11,21 +11,29 @@ import "./Category.css";
 import FilterDrawer from "../../layout/FilterDrawer";
 import { useState } from "react";
 import { fetchProductsByCategory } from "../../api/categoryQuery";
+import { navToCategoryMapping } from "../../assets/const";
 
 function Category() {
     const { category } = useParams();
     const location = useLocation();
     const gender = location.pathname.split("/")[1];
 
-    // subCategories and brands data can be fetched or statically defined
-    const subCategories = ["Shoes", "Shirts", "Pants"];
-    const brands = ["Vintage Apparel", "Old Navy", "Macy's"];
-
-    const [selectedCategories, setSelectedCategories] = useState(subCategories);
-    const [selectedBrands, setSelectedBrands] = useState(brands);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedBrands, setSelectedBrands] = useState([]);
     const [open, setOpen] = useState(false);
 
     const [sortValue, setSortValue] = useState("bestSellers");
+
+    // subCategories and brands data can be fetched or statically defined
+
+    let subCategories = [];
+    if (category === "clothing" || category === "accessories") {
+        subCategories = navToCategoryMapping[category][gender];
+    } else {
+        subCategories = navToCategoryMapping[category];
+    }
+
+    // const brands = ["Vintage Apparel", "Old Navy", "Macy's"];
 
     const handleSortChange = (event) => {
         setSortValue(event.target.value);
@@ -37,14 +45,17 @@ function Category() {
     };
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["products", category],
+        queryKey: ["products", category, selectedCategories, selectedBrands],
         queryFn: ({ queryKey }) => {
-            return fetchProductsByCategory({ queryKey, gender });
+            return fetchProductsByCategory({
+                queryKey,
+                gender,
+                selectedCategories,
+                selectedBrands,
+            });
         },
         enabled: !!category, // Only run the query if the category is not null/undefined
     });
-
-    console.log(data);
 
     return (
         <>
@@ -54,7 +65,6 @@ function Category() {
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 subCategories={subCategories}
-                brands={brands}
                 selectedCategories={selectedCategories}
                 selectedBrands={selectedBrands}
                 setSelectedCategories={setSelectedCategories}

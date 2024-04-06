@@ -15,25 +15,14 @@ const FilterDrawer = ({
     isOpen,
     onClose,
     subCategories,
-    brands,
     selectedCategories,
-    selectedBrands,
     setSelectedCategories,
-    setSelectedBrands,
 }) => {
     const handleCategoryChange = (event, category) => {
         setSelectedCategories((current) =>
             event.target.checked
                 ? [...current, category]
                 : current.filter((c) => c !== category)
-        );
-    };
-
-    const handleBrandChange = (event, brand) => {
-        setSelectedBrands((current) =>
-            event.target.checked
-                ? [...current, brand]
-                : current.filter((b) => b !== brand)
         );
     };
 
@@ -53,42 +42,32 @@ const FilterDrawer = ({
                 <ListItem>
                     <Typography variant="h6">Sub-categories</Typography>
                 </ListItem>
-                {subCategories.map((category, index) => (
-                    <ListItem key={index}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={selectedCategories.includes(
-                                        category
-                                    )}
-                                    onChange={(event) =>
-                                        handleCategoryChange(event, category)
-                                    }
-                                />
-                            }
-                            label={category}
-                        />
-                    </ListItem>
-                ))}
+                {subCategories.map((category, index) => {
+                    return (
+                        <ListItem key={index}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={selectedCategories.includes(
+                                            category
+                                        )}
+                                        onChange={(event) =>
+                                            handleCategoryChange(
+                                                event,
+                                                category
+                                            )
+                                        }
+                                    />
+                                }
+                                label={
+                                    category[0].toUpperCase() +
+                                    category.slice(1)
+                                }
+                            />
+                        </ListItem>
+                    );
+                })}
                 <Divider />
-                <ListItem>
-                    <Typography variant="h6">Brands</Typography>
-                </ListItem>
-                {brands.map((brand, index) => (
-                    <ListItem key={index}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={selectedBrands.includes(brand)}
-                                    onChange={(event) =>
-                                        handleBrandChange(event, brand)
-                                    }
-                                />
-                            }
-                            label={brand}
-                        />
-                    </ListItem>
-                ))}
             </List>
         </Drawer>
     );

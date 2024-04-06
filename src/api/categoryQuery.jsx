@@ -8,10 +8,16 @@ export const fetchCategories = async () => {
     return data;
 };
 
-export const fetchProductsByCategory = async ({ queryKey, gender }) => {
+export const fetchProductsByCategory = async ({
+    queryKey,
+    gender,
+    selectedCategories,
+}) => {
     const [, category] = queryKey;
     let subcategories = [];
-    if (category === "clothing" || category === "accessories") {
+    if (selectedCategories.length > 0) {
+        subcategories = selectedCategories;
+    } else if (category === "clothing" || category === "accessories") {
         subcategories = navToCategoryMapping[category][gender];
     } else {
         subcategories = navToCategoryMapping[category];
@@ -30,6 +36,6 @@ export const fetchProductsByCategory = async ({ queryKey, gender }) => {
     const allProducts = productsArrays.flat();
 
     const sortedProducts = allProducts.sort((a, b) => a.stock - b.stock);
-    console.log(sortedProducts);
+
     return sortedProducts;
 };
