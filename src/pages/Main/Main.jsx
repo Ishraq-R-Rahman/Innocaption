@@ -12,18 +12,10 @@ function Main() {
         section.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
-    const categories = [
-        "Clothing",
-        "Gadgets",
-        "Accessories",
-        "Decor",
-        "Vehicles",
-        "Groceries",
-    ];
     return (
         <>
             <TopBanner />
-            <NavBar categories={categories} />
+            <NavBar />
             <ImagedDiv
                 image={"/src/assets/bg.jpg"}
                 text={"Featured Collection"}
@@ -33,7 +25,6 @@ function Main() {
             <SectionDiv
                 title={"Our Favorites"}
                 titlePosition={"center"}
-                categories={categories}
                 id="favorites"
             />
             <ImagedDiv image={"/src/assets/lifestyle.jpg"} noButton />

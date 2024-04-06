@@ -17,9 +17,11 @@ import { useState } from "react";
 import CartDrawer from "./CartDrawer";
 import { useCart } from "../context/CartContext";
 import SearchDialog from "./SearchDialog";
+import { navToCategoryMapping } from "../assets/const";
 
 // eslint-disable-next-line react/prop-types
-function NavBar({ categories, alwaysHovered }) {
+function NavBar({ alwaysHovered }) {
+    const categories = Object.keys(navToCategoryMapping);
     const { totalItemCount } = useCart();
 
     const isMobile = useMediaQuery("(max-width:964px)");
@@ -52,7 +54,9 @@ function NavBar({ categories, alwaysHovered }) {
 
     return (
         <>
-            <SearchDialog open={openSearchBar} setOpen={setOpenSearchBar} />
+            {openSearchBar && (
+                <SearchDialog open={openSearchBar} setOpen={setOpenSearchBar} />
+            )}
             {isMobile && (
                 <Sidebar
                     open={open}

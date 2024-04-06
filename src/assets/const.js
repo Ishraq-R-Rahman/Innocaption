@@ -1,10 +1,10 @@
 export const navToCategoryMapping = {
-    Clothing: {
+    clothing: {
         men: ["mens-shirts", "mens-shoes"],
         women: ["womens-dresses", "womens-shoes", "tops"],
     },
-    Gadgets: ["smartphones", "laptops"],
-    Accessories: {
+    gadgets: ["smartphones", "laptops"],
+    accessories: {
         men: ["fragrances", "skincare", "mens-watches", "sunglasses"],
         women: [
             "fragrances",
@@ -14,7 +14,7 @@ export const navToCategoryMapping = {
             "womens-jewellery",
         ],
     },
-    Decor: ["home-decoration", "furniture", "lighting"],
-    Vehicles: ["automotive", "motorcycle"],
-    Groceries: ["groceries"],
+    decor: ["home-decoration", "furniture", "lighting"],
+    vehicles: ["automotive", "motorcycle"],
+    groceries: ["groceries"],
 };

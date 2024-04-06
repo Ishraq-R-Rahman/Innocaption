@@ -61,7 +61,7 @@ const CardComponent = (product) => {
         >
             <CardActionArea onClick={() => handleNavigate(1)}>
                 <CardMediaZoom>
-                    <img src="/src/assets/thumbnail.jpg" alt="Product Image" />
+                    <img src={product.thumbnail} alt={product.title} />
                     <OverlayText>
                         <Typography variant="h6" component="div">
                             {product.title}
@@ -73,14 +73,16 @@ const CardComponent = (product) => {
                                     style={{
                                         color: "#ddd",
                                         textDecoration: "line-through",
-                                        marginLeft: "10px"
+                                        marginLeft: "10px",
                                     }}
                                 >
                                     ${product.price}
                                 </span>
                             )}
                         </Typography>
-                        <Typography variant="subtitle2" sx={{color: "#ccc"}}>In Stock</Typography>
+                        <Typography variant="subtitle2" sx={{ color: "#ccc" }}>
+                            {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                        </Typography>
                     </OverlayText>
                 </CardMediaZoom>
             </CardActionArea>

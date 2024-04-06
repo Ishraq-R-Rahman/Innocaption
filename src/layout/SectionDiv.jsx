@@ -14,6 +14,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TabsComponent from "../components/TabsComponent";
 import CardComponent from "../components/CardComponent";
 import CardGridComponent from "../components/CardGridComponent";
+import { navToCategoryMapping } from "../assets/const";
 
 const TabPanel = (props) => {
     // eslint-disable-next-line react/prop-types
@@ -39,21 +40,21 @@ const TabPanel = (props) => {
 export default function SectionDiv({
     title,
     titlePosition,
-    categories,
     id,
     noTabs,
     includeFilterSort,
     setOpenFilter,
     sortValue,
     handleSortChange,
+    products,
 }) {
+    const categories = Object.keys(navToCategoryMapping);
     const [value, setValue] = React.useState(0);
     const isMobile = useMediaQuery("(max-width:768px)");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     return (
         <Box sx={{ width: "100%", background: "white" }} p={8} id={id}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -137,7 +138,7 @@ export default function SectionDiv({
                         <CardComponent />
                     </TabPanel>
                 ))}
-            {noTabs && <CardGridComponent cards={[1, 2, 3, 4, 5, 6]} />}
+            {noTabs && <CardGridComponent cards={products} />}
         </Box>
     );
 }

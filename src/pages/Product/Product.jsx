@@ -10,15 +10,6 @@ import { fetchProduct } from "../../api/productQuery";
 function Product() {
     const { productId } = useParams();
 
-    const categories = [
-        "Clothing",
-        "Gadgets",
-        "Accessories",
-        "Decor",
-        "Vehicles",
-        "Groceries",
-    ];
-
     const { data, error, isLoading } = useQuery({
         queryKey: ["product", productId],
         queryFn: fetchProduct,
@@ -36,7 +27,7 @@ function Product() {
             }}
         >
             <TopBanner />
-            <NavBar categories={categories} alwaysHovered />
+            <NavBar alwaysHovered />
             <ProductLayout product={data} />
             <Footer />
         </Box>
