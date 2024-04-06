@@ -6,6 +6,7 @@ import Main from "./pages/Main/Main";
 import { CartProvider } from "./context/CartContext.jsx";
 import Category from "./pages/Category/Category.jsx";
 import Product from "./pages/Product/Product.jsx";
+import { NavigationProvider } from "./context/NavigationContext.jsx";
 
 const queryClient = new QueryClient();
 
@@ -14,14 +15,22 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <CartProvider>
                 <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/men" element={<Main />} />
-                        <Route path="/women" element={<Main />} />
-                        <Route path="/men/:category" element={<Category />} />
-                        <Route path="/women/:category" element={<Category />} />
-                        <Route path="/:productId" element={<Product />} />
-                    </Routes>
+                    <NavigationProvider>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/men" element={<Main />} />
+                            <Route path="/women" element={<Main />} />
+                            <Route
+                                path="/men/:category"
+                                element={<Category />}
+                            />
+                            <Route
+                                path="/women/:category"
+                                element={<Category />}
+                            />
+                            <Route path="/:productId" element={<Product />} />
+                        </Routes>
+                    </NavigationProvider>
                 </BrowserRouter>
             </CartProvider>
         </QueryClientProvider>
