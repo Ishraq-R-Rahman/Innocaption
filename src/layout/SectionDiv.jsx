@@ -15,6 +15,9 @@ import TabsComponent from "../components/TabsComponent";
 import CardComponent from "../components/CardComponent";
 import CardGridComponent from "../components/CardGridComponent";
 import { navToCategoryMapping } from "../assets/const";
+import { fetchFavorites } from "../api/categoryQuery";
+import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 
 const TabPanel = (props) => {
     // eslint-disable-next-line react/prop-types
@@ -48,6 +51,9 @@ export default function SectionDiv({
     handleSortChange,
     products,
 }) {
+    const location = useLocation();
+    const gender = location.pathname.split("/")[1];
+
     const categories = Object.keys(navToCategoryMapping);
     const [value, setValue] = React.useState(0);
     const isMobile = useMediaQuery("(max-width:768px)");
@@ -55,6 +61,15 @@ export default function SectionDiv({
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const { data, error, isLoading } = useQuery({
+        queryKey: ["favorites", categories[value]],
+        queryFn: () => {
+            return fetchFavorites(categories[value], gender);
+        },
+        enabled: !noTabs && !!categories[value], // Only run the query if the category is not null/undefined
+    });
+
     return (
         <Box sx={{ width: "100%", background: "white" }} p={8} id={id}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -135,7 +150,7 @@ export default function SectionDiv({
                 // eslint-disable-next-line react/prop-types
                 categories.map((category, index) => (
                     <TabPanel value={value} index={index} key={category}>
-                        <CardComponent />
+                        <CardGridComponent cards={data} />
                     </TabPanel>
                 ))}
             {noTabs && <CardGridComponent cards={products} />}

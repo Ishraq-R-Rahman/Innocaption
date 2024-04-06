@@ -10,7 +10,7 @@ import Badge from "@mui/material/Badge";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import "./NavBar.css";
-import { Person, Search, ShoppingBag, Menu } from "@mui/icons-material";
+import { Search, ShoppingBag, Menu } from "@mui/icons-material";
 import MenuButtons from "../components/MenuButtons";
 import Sidebar from "./SideBar";
 import { useState } from "react";
@@ -149,9 +149,9 @@ function NavBar({ alwaysHovered }) {
                                 >
                                     <Search />
                                 </IconButton>
-                                <IconButton color="inherit">
+                                {/* <IconButton color="inherit">
                                     <Person />
-                                </IconButton>
+                                </IconButton> */}
                                 <IconButton
                                     color="inherit"
                                     onClick={() => setOpenCart(true)}
@@ -214,12 +214,12 @@ function NavBar({ alwaysHovered }) {
                                     justifyContent: "flex-end",
                                 }}
                             >
-                                <IconButton
+                                {/* <IconButton
                                     color="inherit"
                                     size={isMobile && "small"}
                                 >
                                     <Person />
-                                </IconButton>
+                                </IconButton> */}
                                 <IconButton
                                     color="inherit"
                                     size={isMobile && "small"}

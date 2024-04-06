@@ -39,3 +39,26 @@ export const fetchProductsByCategory = async ({
 
     return sortedProducts;
 };
+
+export const fetchFavorites = async (category, gender) => {
+    let subcategories = [];
+    if (category === "clothing" || category === "accessories") {
+        subcategories = navToCategoryMapping[category][gender];
+    } else {
+        subcategories = navToCategoryMapping[category];
+    }
+    const fetchSubcategoryProductsPromises = subcategories.map((subcategory) =>
+        axios
+            .get(
+                `https://dummyjson.com/products/category/${subcategory}?limit=3&skip=1`
+            )
+            .then((response) => response.data.products)
+    );
+
+    const productsArrays = await axios.all(fetchSubcategoryProductsPromises);
+
+    // Combine all products into a single array
+    const allProducts = productsArrays.flat();
+
+    return allProducts;
+};

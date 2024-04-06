@@ -3,14 +3,23 @@ import ImagedDiv from "../../layout/ImagedDiv";
 import NavBar from "../../layout/NavBar";
 import SectionDiv from "../../layout/SectionDiv";
 import TopBanner from "../../layout/TopBanner";
+import { useQuery } from "@tanstack/react-query";
 
 import "./Main.css";
+import { fetchBestSellerProducts } from "../../api/productQuery";
 
 function Main() {
     const scrollToSection = (target) => {
         const section = document.getElementById(target);
         section.scrollIntoView({ behavior: "smooth", block: "start" });
     };
+
+    const { data, error, isLoading } = useQuery({
+        queryKey: ["all-products"],
+        queryFn: () => {
+            return fetchBestSellerProducts(12);
+        },
+    });
 
     return (
         <>
@@ -28,7 +37,12 @@ function Main() {
                 id="favorites"
             />
             <ImagedDiv image={"/src/assets/lifestyle.jpg"} noButton />
-            <SectionDiv title={"Best Sellers"} titlePosition={"left"} noTabs />
+            <SectionDiv
+                title={"Best Sellers"}
+                titlePosition={"left"}
+                products={data}
+                noTabs
+            />
             <Footer />
         </>
     );

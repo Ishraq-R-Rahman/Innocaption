@@ -22,7 +22,6 @@ const fetchSearchedProducts = async ({ queryKey, categories }) => {
         category.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-
     if (matchedCategory) {
         const categoryResponse = await axios.get(
             `https://dummyjson.com/products/category/${matchedCategory}`
@@ -41,4 +40,11 @@ const fetchSearchedProducts = async ({ queryKey, categories }) => {
     return [];
 };
 
-export { fetchProduct, fetchSearchedProducts };
+const fetchBestSellerProducts = async (limit) => {
+    const response = await axios.get(
+        `https://dummyjson.com/products?limit=${limit}`
+    );
+    return response.data.products;
+};
+
+export { fetchProduct, fetchSearchedProducts, fetchBestSellerProducts };
