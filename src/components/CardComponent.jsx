@@ -43,7 +43,7 @@ const CardComponent = (product) => {
     };
 
     const price = product.discountPercentage
-        ? (product.price * (1 + product.discountPercentage / 100)).toFixed(2)
+        ? (product.price * (1 - product.discountPercentage / 100)).toFixed(2)
         : product.price;
 
     return (

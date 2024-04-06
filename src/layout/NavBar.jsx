@@ -18,11 +18,13 @@ import CartDrawer from "./CartDrawer";
 import { useCart } from "../context/CartContext";
 import SearchDialog from "./SearchDialog";
 import { navToCategoryMapping } from "../assets/const";
+import { useNavigation } from "../context/NavigationContext";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ alwaysHovered }) {
     const categories = Object.keys(navToCategoryMapping);
     const { totalItemCount } = useCart();
+    const { prevPath } = useNavigation();
 
     const isMobile = useMediaQuery("(max-width:964px)");
     const isExtraSmall = useMediaQuery("(max-width:480px)");
@@ -36,7 +38,9 @@ function NavBar({ alwaysHovered }) {
             currentRoute.length == 2
                 ? currentRoute[currentRoute.length - 1]
                 : currentRoute[currentRoute.length - 2];
-        navigate(`/${gender}${path}`);
+        if (gender !== "men" && gender !== "women") {
+            navigate(`${prevPath}${path}`);
+        } else navigate(`/${gender}${path}`);
     };
 
     const handleNavigate = (path) => {
