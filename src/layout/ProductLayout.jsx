@@ -8,25 +8,40 @@ import {
     Divider,
     Rating,
     useMediaQuery,
+    Tooltip,
 } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
 
-const ProductLayout = () => {
+const ProductLayout = (prop) => {
+    const { addToCart } = useCart();
     const isMobile = useMediaQuery("(max-width:1000px)");
     const isSmallMobile = useMediaQuery("(max-width:500px)");
     const [activeImageIndex, setActiveImageIndex] = useState(0); // State to keep track of the active image index
 
-    // Dummy data for the images
-    const images = [
-        "/src/assets/thumbnail.jpg",
-        "/src/assets/thumbnail.jpg",
-        "/src/assets/thumbnail.jpg",
-        "/src/assets/thumbnail.jpg",
-        // ... more images
-    ];
+    if (!prop.product) return;
+
+    // Making sure the product doesn't get updated unknowingly
+    const currentProduct = JSON.parse(JSON.stringify(prop.product));
+
+    const images =
+        currentProduct.images.length != 0 ? currentProduct.images : [];
 
     const maxHeight = "500px";
+
+    const price = currentProduct.discountPercentage
+        ? (
+              currentProduct.price *
+              (1 + currentProduct.discountPercentage / 100)
+          ).toFixed(2)
+        : currentProduct.price;
+
+    const handleAddToCart = () => {
+        const item = currentProduct;
+        item.price = price;
+        addToCart(item);
+    };
 
     return (
         <>
@@ -46,27 +61,34 @@ const ProductLayout = () => {
                         lg={2}
                     >
                         <List>
-                            {images.map((src, index) => (
-                                <ListItem key={index} sx={{ padding: "8px" }}>
-                                    <img
-                                        src={src}
-                                        alt={`Thumbnail ${index + 1}`}
-                                        style={{
-                                            width: "100%",
-                                            objectFit: "cover",
-                                            border:
-                                                activeImageIndex === index
-                                                    ? `3px solid #ccc`
-                                                    : "none",
-                                            maxWidth: "150px",
-                                            cursor: "pointer",
-                                        }}
-                                        onClick={() =>
-                                            setActiveImageIndex(index)
-                                        }
-                                    />
-                                </ListItem>
-                            ))}
+                            {images.map((src, index) => {
+                                // Making sure only 4 images are shown
+                                if (index >= 4) return <></>;
+                                return (
+                                    <ListItem
+                                        key={index}
+                                        sx={{ padding: "8px" }}
+                                    >
+                                        <img
+                                            src={src}
+                                            alt={`Thumbnail ${index + 1}`}
+                                            style={{
+                                                width: "100%",
+                                                objectFit: "cover",
+                                                border:
+                                                    activeImageIndex === index
+                                                        ? `3px solid #ccc`
+                                                        : "none",
+                                                maxWidth: "150px",
+                                                cursor: "pointer",
+                                            }}
+                                            onClick={() =>
+                                                setActiveImageIndex(index)
+                                            }
+                                        />
+                                    </ListItem>
+                                );
+                            })}
                         </List>
                     </Grid>
                 )}
@@ -87,7 +109,7 @@ const ProductLayout = () => {
                         autoPlay
                         interval={3000}
                         activeStep={(newIndex) => setActiveImageIndex(newIndex)}
-                        index={activeImageIndex} // Controlled active index
+                        index={activeImageIndex}
                         onChange={(newIndex) => setActiveImageIndex(newIndex)}
                         indicatorContainerProps={{
                             style: {
@@ -144,21 +166,25 @@ const ProductLayout = () => {
                             textAlign={isMobile ? "center" : "left"}
                             mb={2}
                         >
-                            {"/Home/Men's Shoes"}
+                            {`/Home/${
+                                currentProduct.category[0].toUpperCase() +
+                                currentProduct.category.slice(1)
+                            }`}
                         </Typography>
                         <Typography
                             variant="h5"
                             gutterBottom
                             textAlign={isMobile ? "center" : "left"}
                         >
-                            {"Men's Tree Breezers"}
+                            {currentProduct.title}
                         </Typography>
                         <Typography
                             variant="subtitle1"
                             gutterBottom
                             textAlign={isMobile ? "center" : "left"}
+                            sx={{ color: "#7B7B7B" }}
                         >
-                            Puma
+                            {currentProduct.brand}
                         </Typography>
                         <Box
                             sx={{
@@ -170,21 +196,23 @@ const ProductLayout = () => {
                             }}
                         >
                             <Typography
-                                variant={isSmallMobile ? "h6" :"h4"}
+                                variant={isSmallMobile ? "h6" : "h4"}
                                 sx={{ fontWeight: "bold", marginBottom: 2 }}
                             >
-                                $100
+                                {price}
                             </Typography>
-                            <Typography
-                                variant={isSmallMobile? "body1" : "h6"}
-                                color="text.secondary"
-                                sx={{
-                                    textDecoration: "line-through",
-                                    marginBottom: 2,
-                                }}
-                            >
-                                $150
-                            </Typography>
+                            {currentProduct.discountPercentage && (
+                                <Typography
+                                    variant={isSmallMobile ? "body1" : "h6"}
+                                    color="text.secondary"
+                                    sx={{
+                                        textDecoration: "line-through",
+                                        marginBottom: 2,
+                                    }}
+                                >
+                                    {currentProduct.price}
+                                </Typography>
+                            )}
                             <Button
                                 variant="outlined"
                                 disabled
@@ -197,20 +225,30 @@ const ProductLayout = () => {
                                     },
                                 }}
                             >
-                                6 left in Stock
+                                {currentProduct.stock} left in Stock
                             </Button>
                         </Box>
-                        <Typography color="primary" textAlign={isMobile ? "center" : "left"}>
-                            <Rating
-                                name="read-only"
-                                value={4.71}
-                                precision={0.5}
-                                readOnly
-                                textAlign={isMobile ? "center" : "left"}
-                                sx={{
-                                    color: "#00123c",
-                                }}
-                            />
+                        <Typography
+                            color="primary"
+                            textAlign={isMobile ? "center" : "left"}
+                        >
+                            <Tooltip
+                                title={`Rating: ${currentProduct.rating}`}
+                                placement="right"
+                            >
+                                <div style={{ width: "max-content" }}>
+                                    <Rating
+                                        name="read-only"
+                                        value={currentProduct.rating}
+                                        precision={0.5}
+                                        readOnly
+                                        textAlign={isMobile ? "center" : "left"}
+                                        sx={{
+                                            color: "#00123c",
+                                        }}
+                                    />
+                                </div>
+                            </Tooltip>
                         </Typography>
                         <Divider />
                     </Box>
@@ -223,9 +261,7 @@ const ProductLayout = () => {
                         }}
                     >
                         <Typography paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
+                            {currentProduct.description}
                         </Typography>
                         <Button
                             variant="contained"
@@ -242,8 +278,9 @@ const ProductLayout = () => {
                                     color: "black",
                                 },
                             }}
+                            onClick={() => handleAddToCart()}
                         >
-                            Add to Cart - $100
+                            Add to Cart - ${price}
                         </Button>
                     </Box>
                 </Grid>

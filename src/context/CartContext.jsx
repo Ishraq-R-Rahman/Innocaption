@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = (item) => {
         setCartItems((prevItems) => {
-            const itemIndex = prevItems.findIndex((i) => i.name === item.name);
+            const itemIndex = prevItems.findIndex((i) => i.title === item.title);
             if (itemIndex > -1) {
                 const newItems = [...prevItems];
                 newItems[itemIndex].amount += 1;
@@ -27,7 +27,7 @@ export const CartProvider = ({ children }) => {
 
     const reduceFromCart = (item) => {
         setCartItems((prevItems) => {
-            const itemIndex = prevItems.findIndex((i) => i.name === item.name);
+            const itemIndex = prevItems.findIndex((i) => i.title === item.title);
             if (itemIndex > -1) {
                 const newItems = [...prevItems];
                 newItems[itemIndex].amount -= 1;
@@ -40,16 +40,17 @@ export const CartProvider = ({ children }) => {
     };
 
     const removeFromCart = (itemName) => {
+        console.log(cartItems.findIndex((item) => item.title === itemName));
         setCartItems((prevItems) => {
             const itemIndex = prevItems.findIndex(
-                (item) => item.name === itemName
+                (item) => item.title === itemName
             );
             if (itemIndex > -1) {
                 setTotalItemCount(
                     (prevTotalItemCount) =>
                         prevTotalItemCount - prevItems[itemIndex].amount
                 );
-                return prevItems.filter((item) => item.name !== itemName);
+                return prevItems.filter((item) => item.title !== itemName);
             }
         });
     };

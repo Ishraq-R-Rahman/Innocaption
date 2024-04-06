@@ -26,7 +26,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
         (acc, item) => acc + item.price * item.amount,
         0
     );
-    const shipping = "Free"; 
+    const shipping = "Free";
     // const shipping = subtotal > 50 ? "Free" : 5; // Free shipping for orders over $50
 
     return (
@@ -71,8 +71,8 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                 <ListItemAvatar>
                                     <Avatar
                                         variant="square"
-                                        src={item.image}
-                                        alt={item.name}
+                                        src={item.thumbnail}
+                                        alt={item.title}
                                         sx={{
                                             width: 56,
                                             height: 56,
@@ -81,7 +81,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                     />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={item.name}
+                                    primary={item.title}
                                     secondary={item.brand}
                                     primaryTypographyProps={{
                                         fontWeight: "fontWeightBold",
@@ -93,7 +93,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                         fontWeight: "bold",
                                     }}
                                 >
-                                    ${item.price * item.amount}
+                                    ${(item.price * item.amount).toFixed(2)}
                                 </Typography>
                             </Box>
                             <Box
@@ -123,7 +123,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                     edge="end"
                                     aria-label="delete"
                                     sx={{ marginLeft: "auto" }}
-                                    onClick={() => removeFromCart(item.name)}
+                                    onClick={() => removeFromCart(item.title)}
                                 >
                                     <DeleteIcon />
                                 </IconButton>
