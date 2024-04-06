@@ -33,7 +33,7 @@ const ProductLayout = (prop) => {
     const price = currentProduct.discountPercentage
         ? (
               currentProduct.price *
-              (1 + currentProduct.discountPercentage / 100)
+              (1 - currentProduct.discountPercentage / 100)
           ).toFixed(2)
         : currentProduct.price;
 

@@ -36,6 +36,9 @@ function NavBar({ alwaysHovered }) {
             currentRoute.length == 2
                 ? currentRoute[currentRoute.length - 1]
                 : currentRoute[currentRoute.length - 2];
+        if( gender !== "men" && gender !== "women" ) {
+            
+        }
         navigate(`/${gender}${path}`);
     };
 
